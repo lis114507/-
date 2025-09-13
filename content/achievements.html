@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>成就系统 - C++学习网站</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style2.css">
+    <link rel="stylesheet" href="../css/achievements.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">C++学习入门</div>
+            <ul class="nav-links">
+                <li><a href="../index.html">首页</a></li>
+                <li><a href="basics.html">基础语法</a></li>
+                <li><a href="oop.html">面向对象</a></li>
+                <li><a href="advanced.html">高级特性</a></li>
+                <li><a href="effective.html">Effective C++</a></li>
+                <li><a href="stl.html">STL源码剖析</a></li>
+                <li><a href="quiz.html">题库</a></li>
+                <li><a href="achievements.html" class="active">成就系统</a></li>
+                <li><a href="../forum.html">论坛</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle">账户 <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#login-modal">登录</a></li>
+                        <li><a href="#register-modal">注册</a></li>
+                    </ul>
+                </li>
+                <li><a href="../about.html">关于我们</a></li>
+                <li><button id="theme-toggle" class="theme-toggle-btn"><i class="fas fa-moon"></i></button></li>
+            </ul>
+            <div class="burger">
+                <div class="line1"></div>
+                <div class="line2"></div>
+                <div class="line3"></div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 主容器 -->
+    <div class="container">
+        <!-- 页面标题 -->
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="fas fa-trophy"></i>
+                成就系统
+            </h1>
+            <p class="page-description">通过完成C++学习挑战来解锁各种成就，展示你的学习成果！</p>
+        </div>
+
+        <!-- 登录提示 -->
+        <div id="login-required-notice" class="login-notice" style="display: none;">
+            <div class="notice-content">
+                <i class="fas fa-info-circle"></i>
+                <div class="notice-text">
+                    <h3>需要登录账户</h3>
+                    <p>为了获得成就并保存您的学习进度，请先登录您的账户。如果您还没有账户，可以免费注册一个。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 成就统计 -->
+        <div id="achievement-stats" class="achievement-stats" style="display: none;">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="unlocked-count">0</h3>
+                        <p>已解锁成就</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="locked-count">5</h3>
+                        <p>待解锁成就</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="progress-percentage">0%</h3>
+                        <p>完成进度</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="latest-achievement">暂无</h3>
+                        <p>最新成就</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 成就列表 -->
+        <div id="achievements-container" class="achievements-container" style="display: none;">
+            <h2 class="section-title">
+                <i class="fas fa-award"></i>
+                我的成就
+            </h2>
+            <div id="achievements-grid" class="achievements-grid">
+                <!-- 成就卡片将通过JavaScript动态生成 -->
+            </div>
+        </div>
+
+        <!-- 成就指南 -->
+        <div class="achievement-guide">
+            <h2 class="section-title">
+                <i class="fas fa-map"></i>
+                成就获取指南
+            </h2>
+            <div class="guide-grid">
+                <div class="guide-card">
+                    <div class="guide-icon">🌱</div>
+                    <h3>初出茅庐</h3>
+                    <p>完成基础语法部分的8道题目并全部答对。这是您C++学习旅程的第一步！</p>
+                    <div class="guide-requirement">
+                        <i class="fas fa-check-circle"></i>
+                        基础语法：8/8 正确
+                    </div>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-icon">🔧</div>
+                    <h3>牛刀小试</h3>
+                    <p>掌握面向对象编程的核心概念，完成所有相关题目并取得满分。</p>
+                    <div class="guide-requirement">
+                        <i class="fas fa-check-circle"></i>
+                        面向对象：8/8 正确
+                    </div>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-icon">🏛️</div>
+                    <h3>登堂入室</h3>
+                    <p>深入理解C++的高级特性，包括模板、异常处理等复杂概念。</p>
+                    <div class="guide-requirement">
+                        <i class="fas fa-check-circle"></i>
+                        高级特性：8/8 正确
+                    </div>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-icon">💎</div>
+                    <h3>精益求精</h3>
+                    <p>掌握Effective C++的最佳实践，成为真正的C++编程专家。</p>
+                    <div class="guide-requirement">
+                        <i class="fas fa-check-circle"></i>
+                        Effective C++：8/8 正确
+                    </div>
+                </div>
+                <div class="guide-card">
+                    <div class="guide-icon">👑</div>
+                    <h3>登峰造极</h3>
+                    <p>深入STL源码解析，达到C++编程的最高境界。</p>
+                    <div class="guide-requirement">
+                        <i class="fas fa-check-circle"></i>
+                        STL源码解析：8/8 正确
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 学习建议 -->
+        <div class="learning-tips">
+            <h2 class="section-title">
+                <i class="fas fa-lightbulb"></i>
+                学习建议
+            </h2>
+            <div class="tips-content">
+                <div class="tip-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <div>
+                        <h4>循序渐进</h4>
+                        <p>建议按照基础语法 → 面向对象 → 高级特性 → Effective C++ → STL源码解析的顺序学习。</p>
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <i class="fas fa-code"></i>
+                    <div>
+                        <h4>实践为主</h4>
+                        <p>理论学习后，通过题库练习巩固知识点，发现并填补知识盲区。</p>
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <i class="fas fa-users"></i>
+                    <div>
+                        <h4>交流讨论</h4>
+                        <p>在讨论区与其他学习者交流心得，共同进步。</p>
+                    </div>
+                </div>
+                <div class="tip-item">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <h4>持续学习</h4>
+                        <p>C++是一门复杂的语言，需要持续不断地学习和练习。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 模态框容器 -->
+    <div id="modal-container"></div>
+
+    <!-- JavaScript文件 -->
+    <script src="../js/data-storage.js"></script>
+    <script src="../js/achievements.js"></script>
+    <script src="../js/main2.js"></script>
+    <script>
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initAchievementsPage();
+        });
+
+        // 初始化成就页面
+        function initAchievementsPage() {
+            // 刷新成就系统的用户数据
+            if (window.AchievementSystem && typeof window.AchievementSystem.refreshUserData === 'function') {
+                window.AchievementSystem.refreshUserData();
+            }
+            
+            const currentUser = window.AchievementSystem.getCurrentUser();
+            
+            if (!currentUser) {
+                // 用户未登录，显示登录提示
+                document.getElementById('login-required-notice').style.display = 'block';
+                document.getElementById('achievement-stats').style.display = 'none';
+                document.getElementById('achievements-container').style.display = 'none';
+                console.log('用户未登录，显示登录提示');
+            } else {
+                // 用户已登录，显示成就内容
+                document.getElementById('login-required-notice').style.display = 'none';
+                document.getElementById('achievement-stats').style.display = 'block';
+                document.getElementById('achievements-container').style.display = 'block';
+                console.log(`用户 ${currentUser.username} 已登录，显示成就内容`);
+                
+                // 加载并显示成就数据
+                loadAchievements();
+            }
+        }
+
+        // 加载成就数据
+        function loadAchievements() {
+            const achievementSystem = window.AchievementSystem;
+            const stats = achievementSystem.getAchievementStats();
+            const achievements = achievementSystem.getAllAchievements();
+            
+            // 更新统计数据
+            document.getElementById('unlocked-count').textContent = stats.unlocked;
+            document.getElementById('locked-count').textContent = stats.locked;
+            document.getElementById('progress-percentage').textContent = stats.progress + '%';
+            
+            // 获取最新解锁的成就
+            const unlockedAchievements = achievementSystem.getUnlockedAchievements();
+            if (unlockedAchievements.length > 0) {
+                const latest = unlockedAchievements.sort((a, b) => 
+                    new Date(b.unlockedAt) - new Date(a.unlockedAt)
+                )[0];
+                document.getElementById('latest-achievement').textContent = latest.name;
+            }
+            
+            // 渲染成就卡片
+            renderAchievements(achievements);
+        }
+
+        // 渲染成就卡片
+        function renderAchievements(achievements) {
+            const grid = document.getElementById('achievements-grid');
+            grid.innerHTML = '';
+            
+            achievements.forEach(achievement => {
+                const achievementCard = document.createElement('div');
+                achievementCard.className = `achievement-card ${achievement.unlocked ? 'unlocked' : 'locked'}`;
+                
+                const unlockedDate = achievement.unlockedAt ? 
+                    new Date(achievement.unlockedAt).toLocaleDateString('zh-CN') : '';
+                
+                achievementCard.innerHTML = `
+                    <div class="achievement-icon">
+                        ${achievement.unlocked ? achievement.icon : '🔒'}
+                    </div>
+                    <div class="achievement-content">
+                        <h3 class="achievement-name">${achievement.name}</h3>
+                        <p class="achievement-description">${achievement.description}</p>
+                        <div class="achievement-requirement">
+                            ${getRequirementText(achievement.requirement)}
+                        </div>
+                        ${achievement.unlocked ? 
+                            `<div class="achievement-date">
+                                <i class="fas fa-calendar"></i>
+                                ${unlockedDate}
+                            </div>` : 
+                            '<div class="achievement-locked">未解锁</div>'
+                        }
+                    </div>
+                    ${achievement.unlocked ? '<div class="achievement-badge"><i class="fas fa-check"></i></div>' : ''}
+                `;
+                
+                grid.appendChild(achievementCard);
+            });
+        }
+
+        // 获取要求文本
+        function getRequirementText(requirement) {
+            const sectionNames = {
+                'basic': '基础语法',
+                'oop': '面向对象',
+                'advanced': '高级特性',
+                'effective': 'Effective C++',
+                'stl': 'STL源码解析'
+            };
+            
+            return `${sectionNames[requirement.section]}：${requirement.score}/${requirement.total} 正确`;
+        }
+
+        // 打开登录模态框
+        function openLoginModal() {
+            const loginModal = document.getElementById('login-modal');
+            if (loginModal) {
+                closeAllModals();
+                loginModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            } else {
+                // 如果模态框不存在，发送自定义事件
+                const event = new CustomEvent('openModal', { detail: 'login' });
+                document.dispatchEvent(event);
+            }
+        }
+
+        // 打开注册模态框
+        function openRegisterModal() {
+            const registerModal = document.getElementById('register-modal');
+            if (registerModal) {
+                closeAllModals();
+                registerModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            } else {
+                // 如果模态框不存在，发送自定义事件
+                const event = new CustomEvent('openModal', { detail: 'register' });
+                document.dispatchEvent(event);
+            }
+        }
+
+        // 关闭所有模态框
+        function closeAllModals() {
+            const modals = ['login-modal', 'register-modal', 'forgot-password-modal', 'terms-modal', 'privacy-modal'];
+            modals.forEach(modalId => {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            // 恢复背景滚动
+            document.body.style.overflow = '';
+        }
+
+        // 监听用户登录状态变化
+        document.addEventListener('userLoginStateChanged', function() {
+            initAchievementsPage();
+        });
+
+        // 添加localStorage监听器以检测跨标签页的登录状态变化
+        let lastLoginState = localStorage.getItem('currentUser');
+        
+        // 监听localStorage变化（跨标签页）
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'currentUser') {
+                const currentLoginState = e.newValue;
+                if (currentLoginState !== lastLoginState) {
+                    lastLoginState = currentLoginState;
+                    console.log('检测到localStorage中的登录状态变化，重新初始化页面');
+                    initAchievementsPage();
+                }
+            }
+        });
+
+        // 定期检查登录状态变化（备用方案，处理同标签页内的变化）
+        let lastUser = window.AchievementSystem.getCurrentUser();
+        setInterval(function() {
+            const currentUser = window.AchievementSystem.getCurrentUser();
+            const currentUserStr = currentUser ? JSON.stringify(currentUser) : null;
+            const lastUserStr = lastUser ? JSON.stringify(lastUser) : null;
+            
+            if (currentUserStr !== lastUserStr) {
+                console.log('检测到用户登录状态变化，重新初始化页面');
+                lastUser = currentUser;
+                initAchievementsPage();
+            }
+        }, 2000); // 每2秒检查一次
+    </script>
+
+    <footer>
+        <p>&copy; 2025 C++学习入门网站. 保留所有权利.</p>
+    </footer>
+</body>
+</html>
